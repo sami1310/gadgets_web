@@ -5,7 +5,8 @@ CATEGORY_CHOICES = (
     ('D', 'Desktop'),
     ('L', 'Laptop'),
     ('M', 'Mobile'),
-    ('C', 'Camera')
+    ('C', 'Camera'),
+    ('K', 'Keyboard')
 )
 
 LABEL_CHOICES = (
