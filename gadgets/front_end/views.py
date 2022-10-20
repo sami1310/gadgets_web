@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from .models import Item
+from . import models
 # Create your views here.
 
 
 def home_page(request):
-    item = Item.objects.all()
+    all_item = models.Item.objects.all()
     context = {
-        'items': 'item',
+        'items': all_item,
     }
     return render(request, 'front_end/home_page.html', context=context)

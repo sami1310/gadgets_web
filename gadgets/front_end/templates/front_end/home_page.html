@@ -2,5 +2,11 @@
 
 {% block content %}
 <h2>THIS IS THE HOME_PAGE OF GADGETs</h2>
+<h4>products</h4>
+{% for item in items %}
+
+Product Name: {{item.title}} | Price: {{item.price}}
+
+{% endfor %}
 
 {%endblock  %}
