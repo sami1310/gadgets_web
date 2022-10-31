@@ -21,10 +21,14 @@ class Item(models.Model):
     price = models.FloatField()
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     label = models.CharField(choices=LABEL_CHOICES, max_length=2)
-    discount = models.FloatField()
+    discount = models.FloatField(blank=True, null=True)
     description = models.TextField()
     slug = models.SlugField()
     image = models.ImageField()
 
     def __str__(self):
         return self.title
+
+    def get_discount_percent(self):
+        discount_percent = 100-(self.discount*100/self.price)
+        return discount_percent
