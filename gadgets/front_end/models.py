@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 CATEGORY_CHOICES = (
     ('D', 'Desktop'),
@@ -32,3 +32,8 @@ class Item(models.Model):
     def get_discount_price(self):
         discount_price = self.price-self.discount
         return discount_price
+
+    def get_item_url(self):
+        return reverse('front_end:detail', kwargs={
+            'slug': self.slug
+        })
