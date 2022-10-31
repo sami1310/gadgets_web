@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Item
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView
 # Create your views here.
 
 
@@ -16,3 +16,8 @@ class HomeListView(ListView):
     template_name = 'item_list.html'
     queryset = Item.objects.order_by('category')
     context_object_name = 'item_list'
+
+
+class ProductDetailView(DetailView):
+    model = Item
+    template_name = 'front_end/product_detail.html'
