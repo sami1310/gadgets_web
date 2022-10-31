@@ -17,7 +17,12 @@
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{item.title}} </h5>
                             <!-- Product price-->
-                            <b>Price: {{item.price}}৳</b>
+                            {% if item.discount %}
+                            <p><del class="mt-2 text-danger">{{item.price}}৳</del>{{item.discount}}৳</p>
+                            {% else %}
+                            <p> {{item.discount}}৳</p>
+                            {% endif %}
+                            <span class="badge rounder-pill bg-info">{{item.get_label_display}}</span>
                             <p> {{item.get_category_display}} </p>
                         </div>
                     </div>

@@ -4,7 +4,7 @@ from . import models
 
 
 def home_page(request):
-    all_item = models.Item.objects.all()
+    all_item = models.Item.objects.order_by('category')
     context = {
         'items': all_item,
     }
