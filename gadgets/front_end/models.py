@@ -29,6 +29,6 @@ class Item(models.Model):
     def __str__(self):
         return self.title
 
-    def get_discount_percent(self):
-        discount_percent = 100-(self.discount*100/self.price)
-        return discount_percent
+    def get_discount_price(self):
+        discount_price = self.price-self.discount
+        return discount_price

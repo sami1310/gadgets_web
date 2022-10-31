@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from .views import HomeListView
 
 app_name = 'front_end'
 urlpatterns = [
-    path('', views.home_page, name='home_page'),
+    path('', HomeListView.as_view(), name='home_page'),
 
 ]

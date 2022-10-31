@@ -6,7 +6,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {% for item in items %}
+            {% for item in item_list %}
             <div class="col mb-5">
                 <div class="card shadow h-100">
                     <!-- Product image-->
@@ -18,9 +18,9 @@
                             <h5 class="fw-bolder">{{item.title}} </h5>
                             <!-- Product price-->
                             {% if item.discount %}
-                            <p><del class="mt-2 text-danger">{{item.price}}৳</del>{{item.discount}}৳</p>
+                            <p><del class="mt-2 text-danger">{{item.price}}৳</del>{{item.get_discount_price}}৳</p>
                             {% else %}
-                            <p> {{item.discount}}৳</p>
+                            <p> {{item.price}}৳</p>
                             {% endif %}
                             <span class="badge rounder-pill bg-info">{{item.get_label_display}}</span>
                             <p> {{item.get_category_display}} </p>
