@@ -23,6 +23,7 @@ from gadgets import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('front_end.urls')),
+    path('accounts/', include('accounts.urls'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()
