@@ -34,7 +34,7 @@ def login_view(request):
 
     else:
         signin_form = AuthenticationForm()
-    return render(request, 'login.html', {'signin_form': signin_form})
+        return render(request, 'login.html', {'signin_form': signin_form})
 
 
 def logout_view(request):
