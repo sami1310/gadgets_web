@@ -32,9 +32,9 @@ class Item(models.Model):
     def __str__(self):
         return self.title
 
-    def get_discount_price(self):
-        discount_price = self.price - self.discount
-        return discount_price
+    def get_discount_percent(self):
+        discount_percent = 100-((self.discount*100)/self.price)
+        return discount_percent
 
     def get_item_url(self):
         return reverse('front_end:detail', kwargs={
@@ -57,6 +57,20 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity} - {self.user} - {self.item.title}"
 
+    def total_item_price(self):
+        return self.quantity * self.item.price
+
+    def total_discount_item_price(self):
+        return self.quantity * self.item.discount
+
+    def amount_saved(self):
+        return self.total_item_price() - self.total_discount_item_price()
+
+    def final_price(self):
+        if self.item.discount:
+            return self.total_discount_item_price()
+        return self.total_item_price()
+
 
 class Order(models.Model):
     user = models.ForeignKey(User,
@@ -76,6 +90,12 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def total_price(self):
+        total = 0
+        for item in self.items.all():
+            total += item.final_price()
+        return total
 
 
 class BillingAddress(models.Model):

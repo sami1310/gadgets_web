@@ -4,17 +4,57 @@
 {% block content %}
 
 <section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-md-5 justify-content-center">
-            <div class="col-md-4 mb-5">
+    <div class="container table-responsive">
+        <h4>Order Summary</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_item in object.items.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order_item.item.title}}</td>
 
-            </div>
+                    {% if order_item.item.discount %}
+                    <td>{{ order_item.item.discount}}৳</td>
+                    {% else %}
+                    <td>{{ order_item.item.price}}৳</td>
+                    {% endif %}
 
-            <div class="col-md-8 mb-5">
-                Summary, will add this later!
-            </div>
+                    <td><a href="{% url 'front_end:remove_single_item' order_item.item.slug %}"><i
+                                class="bi bi-dash-circle mr-2"></i></a>
+                        {{ order_item.quantity}}
+                        <a href="{% url 'front_end:add_to_cart' order_item.item.slug %}"><i
+                                class="bi bi-plus-circle ml-2"></i></a>
+                    </td>
+                    {% if order_item.item.discount %}
+                    <td>{{ order_item.total_discount_item_price}}
+                    </td>
+                    {% else %}
+                    <td>{{ order_item.total_item_price}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="4"><b>Total Amount</b></td>
+                    <td><b>{{ object.total_price}}৳</b></td>
+                </tr>
 
-        </div>
+                <tr>
+                    <td colspan="5"><a href="#" class="btn btn-warning float-end m-4">Proceed to Checkout</a>
+                        <a href="/" class="btn btn-warning float-end m-4">Continue shopping</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 

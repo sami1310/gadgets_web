@@ -17,7 +17,7 @@
                 <h5 class="fw-bolder">{{item.title}} </h5>
                 <!-- Product price-->
                 {% if item.discount %}
-                <p><del class="mt-2 text-danger">{{item.price}}৳</del>{{item.get_discount_price}}৳</p>
+                <p><del class="mt-2 text-danger">{{item.price}}৳</del>{{item.discount}}৳</p>
                 {% else %}
                 <p> {{item.price}}৳</p>
                 {% endif %}

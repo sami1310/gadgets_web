@@ -62,6 +62,37 @@ def add_to_cart(request, slug):
         return redirect('front_end:summary')
 
 
+@login_required(login_url='../accounts/login/')
+def remove_single_item(request, slug):
+    item = get_object_or_404(Item, slug=slug)
+
+    order_q = Order.objects.filter(user=request.user, ordered=False)
+
+    if order_q.exists():
+        order = order_q[0]
+
+        if order.items.filter(item_id=item.id).exists():
+            order_item = OrderItem.objects.filter(
+                item=item, user=request.user, ordered=False)[0]
+
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else:
+                order.items.remove(order_item)
+
+            messages.info(request, "Item Removed")
+            return redirect('front_end:summary')
+
+        else:
+            messages.info(request, "Item was not in your cart")
+            return redirect('front_end:detail', slug=slug)
+
+    else:
+        messages.info(request, "you do not have any order")
+        return redirect('front_end:detail', slug=slug)
+
+
 class OrderSummaryView(View, LoginRequiredMixin):
     def get(self, *args, **kwargs):
         try:
