@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import HomeListView, ProductDetailView
+from . import views
 
 app_name = 'front_end'
 urlpatterns = [
-    path('', HomeListView.as_view(), name='home_page'),
-    path('product/<slug>/', ProductDetailView.as_view(), name='detail'),
+    path('', views.HomeListView.as_view(), name='home_page'),
+    path('product/<slug>/', views.ProductDetailView.as_view(), name='detail'),
+    path('add-to-cart/<slug>/', views.add_to_cart, name='add_to_cart'),
+    path('summary', views.OrderSummaryView.as_view(), name='summary')
 
 
 ]

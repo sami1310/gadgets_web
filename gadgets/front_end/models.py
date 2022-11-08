@@ -41,6 +41,11 @@ class Item(models.Model):
             'slug': self.slug
         })
 
+    def get_add_to_cart(self):
+        return reverse('front_end:add_to_cart', kwargs={
+            'slug': self.slug
+        })
+
 
 class OrderItem(models.Model):
     user = models.ForeignKey(User,
@@ -50,7 +55,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"{self.quantity} - {self.item.title}"
+        return f"{self.quantity} - {self.user} - {self.item.title}"
 
 
 class Order(models.Model):
