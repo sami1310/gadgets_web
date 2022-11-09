@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+ 
+{% block title %} Shipping address {% endblock title %}
+ 
+ 
+ 
+{% block content %}
+<section class="py-5 container">
+   <div class="row">
+ 
+       <div class="col-md-8">
+ 
+           <h4 class="mb-4">Shipping Address</h4>
+ 
+ 
+           <form action="" method="post" autocomplete="off" class="container">
+               {% csrf_token %}
+ 
+               <div class="form-floating mb-3">
+                  {{ form.house_address }}
+                  <label for="floatingInput">House Address</label>
+               </div>
+ 
+               <div class="form-floating mb-3">
+                  {{ form.post_office }}
+                  <label for="floatingPostoffice">Post Office</label>
+               </div>
+ 
+               <div class="form-floating mb-3">
+                {{ form.city }}
+                <label for="floatingCity">City</label>
+             </div>
+
+               <div class="form-floating mb-3">
+                  {{ form.postal_code }}
+                  <label for="floatingPostal">Postal Code</label>
+               </div>
+
+               <div class="form-floating mb-3">
+                {{ form.phone_number }}
+                <label for="floatingPhone">Phone Number</label>
+             </div>
+ 
+                  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+ 
+           </form>
+ 
+           
+ 
+       </div><!--md8-->
+ 
+       <div class="col-md-4">
+          
+       </div>
+ 
+   </div><!--container-->
+</section>
+ 
+{% endblock %}

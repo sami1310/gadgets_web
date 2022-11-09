@@ -3,14 +3,18 @@
 
 {% block content %}
 
-<div class="container">
-    <form method="post">
-        {% csrf_token %}
-        <br>
-        {{signin_form}}
-        <button class="btn btn-info" type="submit">log in</button>
-    </form>
-    <p>Do not have an account? Please <a href="{% url 'accounts:signup'%}">Sign Up</a></p>
-</div>
+
+<section class="py-5 container">
+    <div class="form-floating mb-3">
+        <form method="post">
+            {% csrf_token %}
+            <br>
+            {{signin_form.as_p}}
+            <button class="btn btn-info" type="submit">log in</button>
+        </form>
+        <p>Do not have an account? Please <a href="{% url 'accounts:signup'%}">Sign Up</a></p>
+    </div>
+</section>
+
 
 {% endblock content %}
