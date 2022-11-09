@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from gadgets import settings
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
 
@@ -105,6 +106,7 @@ class BillingAddress(models.Model):
     post_office = models.CharField(max_length=20)
     city = models.CharField(max_length=20)
     postal_code = models.CharField(max_length=20)
+    phone_number = PhoneNumberField(blank=False)
 
     def __str__(self):
         return self.user.username
