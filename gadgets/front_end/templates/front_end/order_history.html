@@ -18,16 +18,15 @@
                 </tr>
             </thead>
             <tbody>
-
+                {% for item in order_history %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ order_history.get_order_ref_id}}</td>
-                    <td>{{order_history.ordered_date}}
+                    <td>{{ item.get_order_ref_id}}</td>
+                    <td>{{ item.ordered_date}}
                     </td>
-                    <td>{{ order_history.total_price}}</td>
+                    <td>{{ item.total_price}}</td>
                 </tr>
-
-
+                {% endfor %}
 
                 <tr>
                     <td colspan="5">

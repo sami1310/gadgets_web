@@ -248,8 +248,8 @@ class OrderHistoryView(View, LoginRequiredMixin):
     #context_object_name = 'order_history'
     def get(self, *args, **kwargs):
         try:
-            order_history = Order.objects.get(
-                user=self.request.user, ordered=True)
+            order_history = Order.objects.filter(
+                user=self.request.user, ordered=True).all()
             context = {
                 'order_history': order_history
             }
