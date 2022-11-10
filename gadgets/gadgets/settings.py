@@ -136,3 +136,5 @@ MEDIA_ROOT = (
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SRIPE_SECRET_KEY = 'sk_test_51M2YNsHD3coqvayHewqi26HqwWw9om6UbPbxU4GI6amgB1jJ3sGxuS0tHGkDfp3ZJLUmmCsH3UXEKIDQzEeuQwN800jvEihvWA'

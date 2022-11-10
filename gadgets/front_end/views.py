@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Item, Order, OrderItem, BillingAddress
+from .models import Item, Order, OrderItem, BillingAddress, Payment
 from .forms import ShippingAddressForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,15 +7,15 @@ from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+import stripe
+import random
+import string
+from django.conf import settings
 # Create your views here.
 
 
-# def home_page(request):
-#all_item = models.Item.objects.order_by('category')
-# context = {
-# 'items': all_item,
-# }
-# return render(request, 'front_end/home_page.html', context=context)
+stripe.api_key = settings.SRIPE_SECRET_KEY
+
 
 class HomeListView(ListView):
     model = Item
@@ -158,6 +158,10 @@ class ShippingAddressView(View):
             return redirect('front_end:summary')
 
 
+def create_order_ref():
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+
 class PaymentView(View):
     def get(self, *args, **kwargs):
         order = Order.objects.get(
@@ -170,3 +174,67 @@ class PaymentView(View):
         else:
             messages.warning(self.request, 'Please add your shipping address')
             return redirect('front_end:shipping_address')
+
+    def post(self, *args, **kwargs):
+        order = Order.objects.get(
+            user=self.request.user, ordered=False)
+        token = self.request.POST.get('stripeToken')
+        amount = int(order.total_price()*100)  # converting poisha to taka
+
+        try:
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency='bdt',
+                source=token,
+                description='Payment from Gadgets website!'
+            )
+
+            payment = Payment()
+            payment.stripe_charge_id = charge['id']
+            payment.user = self.request.user
+            payment.amount = order.total_price()
+            payment.save()
+
+            order_items = order.items.all()
+            order_items.update(ordered=True)
+
+            for item in order_items:
+                item.save()
+
+            order.ordered = True
+            order.payment = payment
+            order.order_ref = create_order_ref()
+            order.save()
+
+            messages.success(
+                self.request, 'Your order have been placed successfully ')
+            return redirect('/')
+
+        except stripe.error.CardError as e:
+            body = e.json_body
+            err = body.get('error', {})
+            messages.warning(self.request, f"{err.get('message')}")
+            return redirect('/')
+        except stripe.error.RateLimitError as e:
+            messages.warning(self.request, f"{err.get('rate limit error')}")
+            return redirect('/')
+        except stripe.error.AuthenticationError as e:
+            messages.warning(self.request, f"{err.get('Not Authenticated')}")
+            return redirect('/')
+        except stripe.error.APIConnectionError as e:
+            messages.warning(
+                self.request, f"{err.get('Network Error.Please Try after some time!')}")
+            return redirect('/')
+        except stripe.error.StripeError as e:
+            messages.warning(
+                self.request, f"{err.get('Payment Unsuccessful.Please try again later')}")
+            return redirect('/')
+        except Exception as e:
+            messages.warning(
+                self.request, f"{err.get('Ooops!Something went wrong!')}")
+            return redirect('/')
+        except stripe.error.InvalidRequestError as e:
+            messages.warning(self.request, f"{err.get('Invalid parametes')}")
+            print('Invalid parametes', e)
+            print('The amount is:', amount)
+            return redirect('/')
