@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Order History {% endblock title %}
+
+
+
+{% block content %}
+<section class="py-5">
+    <div class="container table-responsive">
+        <h4>Order History</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Order Reference Number</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order_history.get_order_ref_id}}</td>
+                    <td>{{order_history.ordered_date}}
+                    </td>
+                    <td>{{ order_history.total_price}}</td>
+                </tr>
+
+
+
+                <tr>
+                    <td colspan="5">
+                        <a href="/" class="btn btn-warning float-end m-4">Continue shopping</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

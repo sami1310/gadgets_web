@@ -238,3 +238,23 @@ class PaymentView(View):
             print('Invalid parametes', e)
             print('The amount is:', amount)
             return redirect('/')
+
+
+class OrderHistoryView(View, LoginRequiredMixin):
+    #model = Order
+    #template_name = 'order_history.html'
+    # queryset = Order.objects.get(
+    # user=request.user, ordered=True)
+    #context_object_name = 'order_history'
+    def get(self, *args, **kwargs):
+        try:
+            order_history = Order.objects.get(
+                user=self.request.user, ordered=True)
+            context = {
+                'order_history': order_history
+            }
+            return render(self.request, 'front_end/order_history.html', context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not placed any order!")
+            return redirect('/')
+        return render(self.request, 'front_end/order_history.html', context)

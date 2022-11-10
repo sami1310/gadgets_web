@@ -14,7 +14,9 @@
 
            {% if order.billing_address %}
            
-                <a href="{% url 'front_end:payment' %}" class="btn btn-info">Proceed to checkout</a>
+           <p>You have already added the address! <i><b>{{ order.billing_address.house_address }}</b></i></p>
+                <a href="{% url 'front_end:home_page' %}" class="btn btn-warning m-3">Add More Items</a>
+                
            {% else %}
  
  
@@ -46,7 +48,9 @@
                 <label for="floatingPhone">Phone Number</label>
              </div>
  
-                  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                  <button class="btn btn-warning float-end m-4" type="submit">Continue to checkout</button>
+                  <!--<button class="btn btn-warning float-end m-4" type="submit">Add More Items</button>-->
+                  <a href="{% url 'front_end:home_page' %}" class="btn btn-warning float-end m-4">Add More Items</a>
  
            </form>
  

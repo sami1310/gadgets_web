@@ -101,6 +101,9 @@ class Order(models.Model):
             total += item.final_price()
         return total
 
+    def get_order_ref_id(self):
+        return self.order_ref
+
 
 class BillingAddress(models.Model):
     user = models.ForeignKey(User,

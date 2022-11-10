@@ -11,6 +11,7 @@ urlpatterns = [
     path('shipping_address/', views.ShippingAddressView.as_view(),
          name='shipping_address'),
     path('payment/', views.PaymentView.as_view(), name='payment'),
+    path('order_history/', views.OrderHistoryView.as_view(), name='order_history'),
 
 
 ]
