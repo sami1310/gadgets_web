@@ -47,6 +47,9 @@ class Item(models.Model):
             'slug': self.slug
         })
 
+    def short_title(self):
+        return self.title[:13] + '...'
+
 
 class OrderItem(models.Model):
     user = models.ForeignKey(User,

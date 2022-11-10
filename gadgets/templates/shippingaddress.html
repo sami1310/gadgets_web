@@ -11,6 +11,11 @@
        <div class="col-md-8">
  
            <h4 class="mb-4">Shipping Address</h4>
+
+           {% if order.billing_address %}
+           
+                <a href="{% url 'front_end:payment' %}" class="btn btn-info">Proceed to checkout</a>
+           {% else %}
  
  
            <form action="" method="post" autocomplete="off" class="container">
@@ -45,12 +50,12 @@
  
            </form>
  
-           
+           {% endif %}
  
        </div><!--md8-->
  
        <div class="col-md-4">
-          
+         {% include 'front_end/cart_snipet.html' %}
        </div>
  
    </div><!--container-->

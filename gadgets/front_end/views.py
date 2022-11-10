@@ -151,8 +151,22 @@ class ShippingAddressView(View):
                 order.save()
 
                 messages.info(self.request, "Address added to the order!")
-                return redirect('front_end:summary')
+                return redirect('front_end:payment')
 
         except ObjectDoesNotExist:
             messages.info(self.request, "No active order")
             return redirect('front_end:summary')
+
+
+class PaymentView(View):
+    def get(self, *args, **kwargs):
+        order = Order.objects.get(
+            user=self.request.user, ordered=False)
+        if order.billing_address:
+            context = {
+                'order': order
+            }
+            return render(self.request, 'payment.html', context)
+        else:
+            messages.warning(self.request, 'Please add your shipping address')
+            return redirect('front_end:shipping_address')
